@@ -20,7 +20,17 @@ router.post('/users', async (req, res)=>{
     const user = await UserRepo.insert(username, bio);
     res.send(user)
 });
-router.put('/users/:id', async (req, res)=>{});
-router.delete('/users/:id', async (req, res)=>{});
+router.put('/users/:id', async (req, res)=>{
+    const {id} = req.params;
+    const {username, bio} = req.body;
+    const user = await UserRepo.update(username, bio, id);
+
+    res.send(user)
+});
+router.delete('/users/:id', async (req, res)=>{
+    const {id} = req.params;
+    const user = await UserRepo.delete(id);
+    res.send(user)
+});
 
 module.exports = router;

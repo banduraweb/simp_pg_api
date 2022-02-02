@@ -19,10 +19,23 @@ SELECT * FROM users WHERE id = $1;
       return rows[0];
     }
 
-    static async update() {
+    static async update(username, bio, id) {
+       try {
+           const {rows} =  await pool.query(
+               'UPDATE users SET username = $1, bio = $2 WHERE id = $3 RETURNING *;',
+               [username, bio, id]
+           )
+           return rows[0];
+       } catch (err) {
+           console.error(err)
+       }
     }
 
-    static async delete() {
+    static async delete(id) {
+        const {rows} =  await pool.query(
+            'DELETE FROM users WHERE id = $1 RETURNING *;', [id]
+        )
+        return rows[0];
     }
 }
 
