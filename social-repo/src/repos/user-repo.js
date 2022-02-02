@@ -13,7 +13,10 @@ SELECT * FROM users WHERE id = ${id};
         return rows[0];
     }
 
-    static async insert() {
+    static async insert(username, bio) {
+      const {rows} =  await pool.query('' +
+            'INSERT INTO users (username, bio) VALUES($1, $2) RETURNING *;', [username, bio]);
+      return rows[0];
     }
 
     static async update() {
